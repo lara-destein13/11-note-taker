@@ -3,6 +3,9 @@ const path = require('path');
 
 const app = express();
 
+
+
+
 const getApiNotes = (req, res) => {
     const dbFilepath = path.join(__dirname, 'db', 'db.json');
     res.sendFile(dbFilepath);
@@ -26,11 +29,19 @@ const getIndex = (req, res) => {
     res.sendFile(indexFilepath);
 }
 
+const getNotes = (req, res) => {
+    const notesFilepath = path.join(__dirname, 'public', 'notes.html');
+    res.setHeader('content-type', 'text/html');
+    res.sendFile(notesFilepath);
+}
+
 
 app.get('/', getIndex);
 app.get('/api/notes', getApiNotes);
 app.get('/assets/css/style.css', getCSS);
 app.get('/assets/js/index.js', getJS);
+app.get('/notes', getNotes);
+
 
 app.listen(3001, () => {
     console.log('API server now on port 3001!');
