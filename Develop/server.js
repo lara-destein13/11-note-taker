@@ -5,6 +5,33 @@ const path = require('path');
 const app = express();
 const jsonParser =bodyParser.json()
 
+deleteApiNotes = (req, res) => {
+    const id = parseInt(req.params.id);
+
+    // Read and parse the database
+    const dbFilepath = path.join(__dirname, 'db', 'db.json');
+    const text = fs.readFileSync(dbFilepath).toString();
+    const notes = JSON.parse(text);
+    const keepers = [];
+
+    for (let i = 0; i < notes.length; i++) {
+        const note = notes[i];
+        console.log(JSON.stringify(note));
+        if (note.id !== id) {
+            keepers.push(note);
+            console.log('push');
+        } else {
+            console.log('dont push');
+        }
+    }
+
+    // write the updated database to the filesystem
+    fs.writeFileSync(dbFilepath, JSON.stringify(keepers, null, 4));
+
+    res.status(200);
+    res.end();
+}
+
 const getApiNotes = (req, res) => {
     const dbFilepath = path.join(__dirname, 'db', 'db.json');
     res.sendFile(dbFilepath);
@@ -79,6 +106,7 @@ app.get('/assets/css/styles.css', getCSS);
 app.get('/assets/js/index.js', getJS);
 app.get('/notes', getNotes);
 app.post('/api/notes',  jsonParser, postApiNotes);
+app.delete('/api/notes/:id', deleteApiNotes);
 initializeIds(); 
 
 app.listen(3001, () => {
