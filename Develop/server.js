@@ -1,10 +1,9 @@
+const bodyParser = require('body-parser')
 const express = require('express');
+const fs = require('fs');
 const path = require('path');
-
 const app = express();
-
-
-
+const jsonParser =bodyParser.json()
 
 const getApiNotes = (req, res) => {
     const dbFilepath = path.join(__dirname, 'db', 'db.json');
@@ -35,12 +34,38 @@ const getNotes = (req, res) => {
     res.sendFile(notesFilepath);
 }
 
+const postApiNotes = (req, res) => {
+    // Read and parse the database
+    const dbFilepath = path.join(__dirname, 'db', 'db.json');
+    const text = fs.readFileSync(dbFilepath).toString();
+    const db = JSON.parse(text);
 
+    // Add the new note to the database
+    console.log(Object.keys(req));
+    console.log(req.body);
+    const note = req.body;
+    db.push(note);
+
+    // Write the updated database to the filesystem.
+    fs.writeFileSync(dbFilepath, JSON.stringify(db, null, 4));
+
+    // All is well.
+    res.status(200);
+    res.end();
+}
+
+
+
+
+// app.use(bodyParser.urlencoded());
 app.get('/', getIndex);
 app.get('/api/notes', getApiNotes);
-app.get('/assets/css/style.css', getCSS);
+app.get('/assets/css/styles.css', getCSS);
 app.get('/assets/js/index.js', getJS);
 app.get('/notes', getNotes);
+app.post('/api/notes',  jsonParser, postApiNotes);
+
+
 
 
 app.listen(3001, () => {
