@@ -44,6 +44,7 @@ const postApiNotes = (req, res) => {
     console.log(Object.keys(req));
     console.log(req.body);
     const note = req.body;
+    note.id = Date.now();
     db.push(note);
 
     // Write the updated database to the filesystem.
@@ -54,19 +55,31 @@ const postApiNotes = (req, res) => {
     res.end();
 }
 
+//assign IDs to notes becuase not assigned in starter code.
+const initializeIds = () => {
+    // Read and parse the database
+    const dbFilepath = path.join(__dirname, 'db', 'db.json');
+    const text = fs.readFileSync(dbFilepath).toString();
+    const notes = JSON.parse(text);
 
+    for (let i = 0; i < notes.length; i++) {
+        const note = notes[i];
+        if (!note.id) {
+            note.id = i;
+        }
+    }
 
+    // Write the updated database to the filesystem.
+    fs.writeFileSync(dbFilepath, JSON.stringify(notes, null, 4));    
+}
 
-// app.use(bodyParser.urlencoded());
 app.get('/', getIndex);
 app.get('/api/notes', getApiNotes);
 app.get('/assets/css/styles.css', getCSS);
 app.get('/assets/js/index.js', getJS);
 app.get('/notes', getNotes);
 app.post('/api/notes',  jsonParser, postApiNotes);
-
-
-
+initializeIds(); 
 
 app.listen(3001, () => {
     console.log('API server now on port 3001!');
