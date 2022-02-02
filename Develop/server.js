@@ -1,9 +1,9 @@
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const app = express();
-const jsonParser =bodyParser.json()
+const jsonParser = bodyParser.json()
 
 deleteApiNotes = (req, res) => {
     const id = parseInt(req.params.id);
