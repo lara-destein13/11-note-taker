@@ -25,10 +25,18 @@ THEN I am presented with empty fields to enter a new note title and the note’s
 ## Built With
 * Express
 * JavaScript
+* HTML
+* CSS
 
 ## Usage
 
-Application runs in the browser and can be accessed at __________.
+Application runs in the browser and can be accessed at https://mod11-lkd-note-taker.herokuapp.com/notes.
+
+![Screen Shot 2022-02-02 at 5 01 38 PM](https://user-images.githubusercontent.com/88476888/152288045-8d0f05aa-d7c1-47d5-b57b-08eaa137ab0e.png)
+
+
+![Screen Shot 2022-02-02 at 5 01 18 PM](https://user-images.githubusercontent.com/88476888/152288029-14969627-0ea5-4219-bd75-53635ab67b7c.png)
+
 
 ## Contributing
 Made with &hearts; by Lara DeStein
