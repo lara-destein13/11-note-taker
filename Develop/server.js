@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const app = express();
 const jsonParser = bodyParser.json()
+const PORT = process.env.PORT || 3001;
 
 deleteApiNotes = (req, res) => {
     const id = parseInt(req.params.id);
@@ -109,6 +110,6 @@ app.post('/api/notes',  jsonParser, postApiNotes);
 app.delete('/api/notes/:id', deleteApiNotes);
 initializeIds(); 
 
-app.listen(3001, () => {
-    console.log('API server now on port 3001!');
+app.listen(PORT, () => {
+    console.log(`API server now on port ${PORT}!`);
 });
